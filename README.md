@@ -4,8 +4,8 @@ Teaser site for LEMON AUDIO — レモン 🍋
 
 ## Development
 
-Open `public/index.html` in a browser. No build step required.
+Open `index.html` in a browser. No build step required.
 
 ## Deployment
 
-Deployed to GitHub Pages via the `deploy` workflow. Pushes to `main` automatically publish the contents of `public/`.
+Deployed to GitHub Pages via the `deploy` workflow. Pushes to `main` automatically publish the repo root.
