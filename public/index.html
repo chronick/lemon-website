@@ -233,6 +233,27 @@ body {
   color: var(--neon-green);
 }
 
+/* ===================== NAV ===================== */
+.nav-link {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  border: 1px solid #222233;
+  padding: 8px 20px;
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(204, 255, 0, 0.15);
+}
+
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 600px) {
   .logo-ascii { font-size: 5px; }
@@ -281,6 +302,7 @@ body {
 &#x255A;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255D;&#x255A;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255D;&#x255A;&#x2550;&#x255D;     &#x255A;&#x2550;&#x255D; &#x255A;&#x2550;&#x2550;&#x2550;&#x2550;&#x2550;&#x255D; &#x255A;&#x2550;&#x255D;  &#x255A;&#x2550;&#x2550;&#x2550;&#x255D;</pre>
     <div class="brand-sub">audio</div>
     <div class="tagline-jp">&#x30EC;&#x30E2;&#x30F3; <span class="sep">///</span> <span class="lemon-emoji">&#x1F34B;</span></div>
+    <a href="/flasher/" class="nav-link">firmware flasher</a>
   </div>
 
 </section>
