@@ -1,0 +1,48 @@
+name: Deploy drops to drops.lemon.audio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/drops/**"
+      - ".github/workflows/deploy-drops.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: drops-deploy
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/drops/package-lock.json
+
+      - name: Install drops deps
+        working-directory: apps/drops
+        run: npm ci
+
+      - name: Build drops
+        working-directory: apps/drops
+        run: npm run build
+
+      - name: Add CNAME to dist
+        run: echo "drops.lemon.audio" > apps/drops/dist/CNAME
+
+      - name: Deploy to chronick/lemon-drops
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.DROPS_DEPLOY_KEY }}
+          external_repository: chronick/lemon-drops
+          publish_branch: main
+          publish_dir: apps/drops/dist
+          force_orphan: true
+          commit_message: "deploy: ${{ github.sha }}"
+          user_name: "github-actions[bot]"
+          user_email: "41898282+github-actions[bot]@users.noreply.github.com"
