@@ -21,6 +21,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/flasher/package-lock.json
+
+      - name: Install flasher deps
+        working-directory: apps/flasher
+        run: npm ci
+
+      - name: Build flasher
+        working-directory: apps/flasher
+        run: npm run build
+
+      - name: Stage flasher dist into website/public
+        run: |
+          rm -rf apps/website/public/flasher
+          cp -R apps/flasher/dist apps/website/public/flasher
+
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
