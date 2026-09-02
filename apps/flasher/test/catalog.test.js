@@ -5,7 +5,7 @@ const baseEntry = {
     name: "QPAS-ish",
     description: "Quad-peak animated filter",
     platform: "patch-init",
-    repo: "chronick/qpas-ish",
+    repo: "algonormative/qpas-ish",
     asset: "qpas-ish.bin",
     controls: {
         knobs: ["freq", "resonance"],

@@ -39,11 +39,11 @@ jobs:
       - name: Add CNAME to dist
         run: echo "drops.lemon.audio" > apps/drops/dist/CNAME
 
-      - name: Deploy to chronick/lemon-drops
+      - name: Deploy to algonormative/lemon-drops
         uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.DROPS_DEPLOY_KEY }}
-          external_repository: chronick/lemon-drops
+          external_repository: algonormative/lemon-drops
           publish_branch: main
           publish_dir: apps/drops/dist
           force_orphan: true

@@ -1,8 +1,8 @@
 # lemon.audio v2 — Play, Make, Flash
 
 Plan document for `vault-2htws`. Produced 2026-08-15 against the state of
-`chronick/lemon-audio` at `19d41c5`, `chronick/smpl`, and
-`chronick/lemon-agent`. Nothing here is implemented; this is the plan the
+`algonormative/lemon-audio` at `19d41c5`, `algonormative/smpl`, and
+`algonormative/lemon-agent`. Nothing here is implemented; this is the plan the
 implementation children get filed against.
 
 ## 1. What this plan is for
@@ -53,7 +53,7 @@ it specifies:
 **Correction to record:** `README.md` says drops.lemon.audio is "planned" and
 that drops is "also published at `lemon.audio/drops/`". Both are stale.
 `.github/workflows/deploy-drops.yml` builds `apps/drops` and publishes to
-`chronick/lemon-drops` with `CNAME=drops.lemon.audio`, and `/drops/` is now
+`algonormative/lemon-drops` with `CNAME=drops.lemon.audio`, and `/drops/` is now
 only a redirect stub. The README fix belongs in the first implementation
 child. (DNS resolution itself was not verified from this environment — the
 pipeline is in CI and the redirect assumes it; if the host is not answering,
@@ -68,8 +68,8 @@ named asset.
 
 | Firmware | Status | Source | Asset |
 | --- | --- | --- | --- |
-| DuoPulse — 2-voice algorithmic percussion sequencer | **usable** (Daisy Patch.init() hardware required) | `chronick/duopulse` | `duopulse.bin` |
-| QPAS-ish — quad-peak animated filter | **usable** (same) | `chronick/qpas-ish` | `qpas-ish.bin` |
+| DuoPulse — 2-voice algorithmic percussion sequencer | **usable** (Daisy Patch.init() hardware required) | `algonormative/duopulse` | `duopulse.bin` |
+| QPAS-ish — quad-peak animated filter | **usable** (same) | `algonormative/qpas-ish` | `qpas-ish.bin` |
 
 Two consequences the site must be honest about:
 
@@ -89,10 +89,10 @@ page's own limitations line rather than discovered by a user mid-flash.
 
 | Tool | Status | Where | Honest note |
 | --- | --- | --- | --- |
-| **smpl** (core toolchain) | **usable** | https://github.com/chronick/smpl · site https://chronick.github.io/smpl/ | Public, MIT. 47 subcommands. One `uv tool install` line; core cold-starts without torch. NDJSON frames + content-addressed blobs. The memo key is specified but **cache lookups are not wired — re-runs recompute**; the README says so and the site must too. |
+| **smpl** (core toolchain) | **usable** | https://github.com/algonormative/smpl · site https://algonormative.github.io/smpl/ | Public, MIT. 47 subcommands. One `uv tool install` line; core cold-starts without torch. NDJSON frames + content-addressed blobs. The memo key is specified but **cache lookups are not wired — re-runs recompute**; the README says so and the site must too. |
 | smpl heavy tools (`gen`, `cloud`, `stems`, `transcribe`, `embed`, `synth`, `midi`) | **usable** | `tools/` in the same repo | Separate `uv tool install` per tool, discovered on PATH. Not part of the quick start. |
-| smpl agent skills (`smpl-dissect`, `smpl-audit`) | **usable** | `skills/` in the same repo | `npx skills add chronick/smpl --global --agent codex claude-code --yes`. |
-| **smplmix** (session render) | **experimental** | referenced as `github.com/chronick/smplmix`; **not cloned in this environment, not verified public** | This is the only thing that renders a session to audio. It is not part of the smpl install, not in the smpl tools table, and not covered by `spec.md`. See §6. |
+| smpl agent skills (`smpl-dissect`, `smpl-audit`) | **usable** | `skills/` in the same repo | `npx skills add algonormative/smpl --global --agent codex claude-code --yes`. |
+| **smplmix** (session render) | **experimental** | referenced as `github.com/algonormative/smplmix`; **not cloned in this environment, not verified public** | This is the only thing that renders a session to audio. It is not part of the smpl install, not in the smpl tools table, and not covered by `spec.md`. See §6. |
 | **smplgen** | **experimental** | `~/git/smplgen` (separate repo) | Lean text-to-audio + melody generation CLI, CPU-slow (~15s per 4s of audio). Overlaps `smpl gen`; the relationship is not settled. Do not surface on v2. |
 | **lemon-record** | **experimental — status per vault docs, repo not inspected** | not cloned here | `music-hub/CLAUDE.md` describes it as "primary audio recorder, writes to `~/.music-hub-data/recordings/`". One open task carries the `repo:lemon-record` label: **vault-3p16** (p2, 62 days stale) "sample-kit: replace sample-curator Tauri GUI with recorder app + CLI pipeline". No install path, no docs, no release. **Do not surface on v2 at all** — see §5.4. |
 
@@ -190,14 +190,14 @@ from the smpl README, not invented for this plan.
 2. **Install `uv`** (linked to https://docs.astral.sh/uv/), then the core in
    one isolated environment:
    ```bash
-   uv tool install git+https://github.com/chronick/smpl#subdirectory=packages/smpl \
-     --with git+https://github.com/chronick/smpl#subdirectory=packages/smplstream \
-     --with git+https://github.com/chronick/smpl#subdirectory=packages/smpl-analysis
+   uv tool install git+https://github.com/algonormative/smpl#subdirectory=packages/smpl \
+     --with git+https://github.com/algonormative/smpl#subdirectory=packages/smplstream \
+     --with git+https://github.com/algonormative/smpl#subdirectory=packages/smpl-analysis
    ```
    No model download, no API key, no account.
 3. **Get the demo loop** (four seconds, shipped with smpl):
    ```bash
-   curl -LO https://chronick.github.io/smpl/assets/loop.wav
+   curl -LO https://algonormative.github.io/smpl/assets/loop.wav
    ```
 4. **Run the first pipe:**
    ```bash
@@ -219,12 +219,12 @@ from the smpl README, not invented for this plan.
 7. **Hand it to an agent** (the lemon.audio-register version of the pitch:
    the toolkit is the instrument, the agent plays it):
    ```bash
-   npx skills add chronick/smpl --global --agent codex claude-code --yes
+   npx skills add algonormative/smpl --global --agent codex claude-code --yes
    ```
    with one line on what `smpl-dissect` and `smpl-audit` do.
 8. **Exit ramps.** Two, clearly labelled: *"want the disciplined version of
    this workflow?"* → https://lemon-agent.dev/audio/ ; *"want the whole
-   protocol?"* → https://chronick.github.io/smpl/ and `spec.md`.
+   protocol?"* → https://algonormative.github.io/smpl/ and `spec.md`.
 
 Acceptance for the slice: a person who has never seen any of this can get
 from lemon.audio to those two measured numbers without opening GitHub, and
@@ -246,11 +246,11 @@ than one sentence, the product is not ready to be surfaced.
 | --- | --- | --- | --- | --- |
 | Drops | live | drop #001 | `https://drops.lemon.audio` | a browser (audio starts on click) |
 | Drop #001 ACID TEKNO | live | 303 acid + kick sequencer, shareable presets | `https://drops.lemon.audio/#001-acid-techno` | — |
-| smpl | usable | 47 subcommands, MIT | `/make/` → `https://github.com/chronick/smpl` | a terminal and `uv` |
+| smpl | usable | 47 subcommands, MIT | `/make/` → `https://github.com/algonormative/smpl` | a terminal and `uv` |
 | smpl agent skills | usable | 2 skills | `/make/` | an agent CLI (Claude Code or Codex) |
 | Flasher | live | 2 firmwares | `/flasher/` | a Chromium-family browser + the module in DFU mode |
-| DuoPulse | usable | Daisy Patch.init() | resolved from `chronick/duopulse` releases | the hardware |
-| QPAS-ish | usable | Daisy Patch.init() | resolved from `chronick/qpas-ish` releases | the hardware |
+| DuoPulse | usable | Daisy Patch.init() | resolved from `algonormative/duopulse` releases | the hardware |
+| QPAS-ish | usable | Daisy Patch.init() | resolved from `algonormative/qpas-ish` releases | the hardware |
 | fm.lemon.audio | planned | — | not linked | — |
 | Albums | planned | — | not linked | — |
 
@@ -357,7 +357,7 @@ not packaged for outside use yet". lemon.audio already links
 | smpl install line, first pipe, expected numbers | **lemon.audio/make/** (mirroring the smpl README, which is upstream of both) | link |
 | Toys, Drops, the weird register, mascot | **lemon.audio** | link, in one sentence, without reproducing the visual language |
 | Firmware, WebUSB, hardware | **lemon.audio/flasher/** | link |
-| smpl protocol, spec, subcommand reference | `chronick/smpl` + `chronick.github.io/smpl` (upstream of both sites) | both link, neither forks |
+| smpl protocol, spec, subcommand reference | `algonormative/smpl` + `algonormative.github.io/smpl` (upstream of both sites) | both link, neither forks |
 
 **One-hop rule:** each site links to the other's canonical page, never to a
 copy. When a fact lives in the smpl README, both sites quote it and neither
@@ -390,7 +390,7 @@ table, and `lemon-agent.dev/catalog.json` → `audio-craft.how_to_use`.
 1. **drops.lemon.audio DNS** — the CI pipeline and the redirect stub both
    assume it resolves. Not verifiable from this environment. Confirm before
    the homepage points PLAY at it.
-2. **smplmix visibility** — is `chronick/smplmix` public? §6 item 4 differs
+2. **smplmix visibility** — is `algonormative/smplmix` public? §6 item 4 differs
    depending on the answer (absorb vs. publish).
 3. **`/make/` vs. a subdomain** — this plan puts MAKE on the apex as a static
    page. If it grows a real docs tree, `make.lemon.audio` becomes the same
@@ -420,7 +420,7 @@ this document.
 5. **Flasher: finish vault-3ajh (DfuSe memory-map recovery)** — existing
    ticket; v2 gives it a user-visible reason to land.
 6. **smpl: specify the session format and `smpl mix`** — §6 items 1–3. Lands
-   in `chronick/smpl`, not here; blocks any DAW language.
+   in `algonormative/smpl`, not here; blocks any DAW language.
 7. **smpl/smplmix: one install path for render** — §6 item 4.
 8. **`smpl loop` op: fix the render downbeat offset at source** — §6 item 5,
    retiring the out-of-band `loopify.py`.
